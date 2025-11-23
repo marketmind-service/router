@@ -1,6 +1,7 @@
-uvicorn~=0.38.0
 fastapi~=0.121.3
 pydantic~=2.12.4
-backend~=0.2.4.1
+state~=0.1.1.dev0
+langgraph~=1.0.3
 langchain-openai~=1.0.3
 langchain-core~=1.1.0
+uvicorn[standard]~=0.38.0
