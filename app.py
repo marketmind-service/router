@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# app.py
+
 import textwrap
 
 from fastapi import FastAPI, HTTPException
@@ -15,7 +18,31 @@ class AskRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"status": "ok", "message": "MarketMind agent is alive"}
+    """
+    Simple test route that runs a hardcoded prompt through the agent
+    and shows the final AgentState on the page.
+    """
+    test_prompt = "Test prompt: briefly confirm the MarketMind agent is wired up."
+
+    try:
+        result_state: AgentState = await start_agent(test_prompt)
+    except Exception as e:
+        # This tells you if LangGraph / Azure / whatever is borked
+        raise HTTPException(status_code=500, detail=f"agent_error: {e}")
+
+    # Prefer Pydantic model_dump if AgentState is BaseModel
+    if hasattr(result_state, "model_dump"):
+        payload = result_state.model_dump()
+    else:
+        # Fallback if it's some other type
+        payload = result_state.__dict__ if isinstance(result_state, AgentState) else str(result_state)
+
+    # This is what shows in the browser at http://localhost:8000/
+    return {
+        "status": "ok",
+        "test_prompt": test_prompt,
+        "agent_state": payload,
+    }
 
 
 @app.post("/api/ask")
@@ -27,18 +54,14 @@ async def ask(req: AskRequest):
     try:
         result_state: AgentState = await start_agent(prompt)
     except Exception as e:
-        # You can log e here if you have logging wired
         raise HTTPException(status_code=500, detail=f"agent_error: {e}")
 
-    # Assuming AgentState is a Pydantic model (it looks like it from model_copy usage)
     if hasattr(result_state, "model_dump"):
         return result_state.model_dump()
 
-    # Fallback in case AgentState is a dataclass or plain object
     if isinstance(result_state, AgentState):
         return result_state.__dict__
 
-    # Last resort
     return {"result": str(result_state)}
 
 
