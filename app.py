@@ -64,8 +64,42 @@ async def ask(req: AskRequest):
 
     return {"result": str(result_state)}
 
+# === CLI MODE ===
+async def local_cli():
+    print("MarketMind CLI (type 'exit' to quit)")
+    while True:
+        prompt = input("\nYou: ").strip()
+        if not prompt or prompt.lower() in {"exit", "quit"}:
+            print("Done.")
+            break
+        try:
+            result = await start_agent(prompt)
+            print(textwrap.dedent(f"""
+                ==================================================== RESULTS ====================================================
+                Prompt: {result.prompt}
+                Classification: {result.classification}
+                Ticker: {result.lookup_result.ticker}
+                Period: {result.lookup_result.period}
+                Interval: {result.lookup_result.interval}
+                Search: {result.lookup_result}
+                =================================================================================================================
+            """).strip())
+        except Exception as e:
+            print("Error:", e)
+
 
 if __name__ == "__main__":
+    # mode = input("Run [s]erver or [t]erminal? (s/t): ").strip().lower()
+    mode = "t"
+    if mode == "s":
+        import uvicorn
+        uvicorn.run("app:app", host="127.0.0.1", port=8080, reload=True)
+    else:
+        import asyncio
+        asyncio.run(local_cli())
+
+
+'''if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(
@@ -73,4 +107,4 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=8000,
         reload=True,
-    )
+    )'''
