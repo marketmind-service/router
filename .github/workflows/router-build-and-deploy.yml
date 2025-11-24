@@ -55,7 +55,3 @@ jobs:
           registryUsername: ${{ secrets.ROUTER_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.ROUTER_REGISTRY_PASSWORD }}
           imageToDeploy: ghcr.io/marketmind-service/router:${{ github.sha }}
-          environmentVariables: |
-            AZURE_OPENAI_ENDPOINT=secretref:endpoint
-            AZURE_OPENAI_API_KEY=secretref:api-key
-            AZURE_OPENAI_DEPLOYMENT=secretref:deployment
