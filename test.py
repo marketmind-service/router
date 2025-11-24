@@ -8,7 +8,6 @@ model = AzureChatOpenAI(
     azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
     azure_deployment=os.environ["AZURE_OPENAI_DEPLOYMENT"],
     api_version="2024-10-21",
-    temperature=0,
 )
 
 from langchain_core.messages import HumanMessage
