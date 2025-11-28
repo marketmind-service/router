@@ -32,22 +32,16 @@ LOOKUP_BASE_URL = os.environ.get(
 )
 
 
-async def lookup_agent(state: AgentState) -> AgentState:
-    prompt = state.prompt
-
+async def lookup_agent_node(state: AgentState) -> AgentState:
     async with httpx.AsyncClient(timeout=15) as client:
-        r = await client.get(
-            f"{LOOKUP_BASE_URL}/api/stock",
-            params={
-                "query": prompt,
-                "period": "6mo",
-                "interval": "1d",
-            },
+        r = await client.post(
+            f"{LOOKUP_BASE_URL}/api/lookup-agent",
+            json=state.model_dump(),
         )
         r.raise_for_status()
         data = r.json()
 
-    return state.model_copy(update={
-        "result": data,
-        "route_taken": (state.route_taken or []) + ["lookup_agent"],
-    })
+    # build a new AgentState from the response
+    new_state = AgentState(**data)
+    new_state.route_taken = (state.route_taken or []) + ["lookup_agent"]
+    return new_state
