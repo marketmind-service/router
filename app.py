@@ -75,14 +75,15 @@ async def local_cli():
         try:
             result = await start_agent(prompt)
             print(textwrap.dedent(f"""
-                ==================================================== RESULTS ====================================================
+                ========================================== RESULTS ==========================================
                 Prompt: {result.prompt}
                 Classification: {result.classification}
                 Ticker: {result.lookup_result.ticker}
                 Period: {result.lookup_result.period}
                 Interval: {result.lookup_result.interval}
+                ------------------------------------------------
                 Search: {result.lookup_result}
-                =================================================================================================================
+                =============================================================================================
             """).strip())
         except Exception as e:
             print("Error:", e)
