@@ -32,7 +32,7 @@ LOOKUP_BASE_URL = os.environ.get(
 )
 
 
-async def lookup_agent_node(state: AgentState) -> AgentState:
+async def lookup_agent(state: AgentState) -> AgentState:
     async with httpx.AsyncClient(timeout=15) as client:
         r = await client.post(
             f"{LOOKUP_BASE_URL}/api/lookup-agent",
