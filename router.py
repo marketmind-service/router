@@ -28,7 +28,7 @@ async def router(state: AgentState) -> AgentState:
 
 LOOKUP_BASE_URL = os.environ.get(
     "LOOKUP_BASE_URL",
-    "https://lookup.wonderfulfield-2268942f.eastus2.azurecontainerapps.io",
+    "https://lookup.wonderfulfield-2268942f.eastus2.azurecontainerapps.io"
 )
 
 
