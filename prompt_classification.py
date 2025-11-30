@@ -8,25 +8,46 @@ from langchain_core.messages import SystemMessage, HumanMessage
 async def classify(prompt: str) -> List[str]:
     messages = [
         SystemMessage(content=textwrap.dedent("""
-            Classify the user's finance question into exactly one category.
+            You route FINANCE questions. Output EXACTLY ONE label in a JSON array.
 
-            Valid:
+            Valid labels:
             ["Stock Lookup"]
             ["SMA/EMA Analyzer"]
-            ["Portfolio Simulator"]
+            ["Portfolio"]
             ["News & Sentiment"]
             ["Sector Rotation Intelligence"]
             ["None of the above"]
-            
-            Rules:
-            1. If it's about simulations or portfolio behavior → Portfolio Simulator
-            2. If it's about a specific stock or ticker (e.g., google) → Stock Lookup
-            3. If it's about moving averages → SMA/EMA Analyzer
-            4. If it's about headlines or sentiment → News & Sentiment
-            5. If it's about sectors or industries → Sector Rotation Intelligence
-            6. Otherwise → None of the above
-            
-            Respond ONLY with the JSON array.
+    
+            Global rule:
+            - If the prompt is not about finance, markets, investing, trading, or the economy → ["None of the above"].
+    
+            Stock Lookup:
+            - About a specific stock, ETF, or public company.
+            - Explicit: "NVDA", "AAPL", "tesla chart", "MSFT 1y", "QQQ", "SPY".
+            - Implicit but clearly one company: "big search engine", "iphone makers", "big T EV company chart".
+            - If it is just a casual statement with no finance intent, even if a brand is mentioned, like:
+              "I like apples", "google is evil", "tesla drivers are annoying" → ["None of the above"].
+    
+            SMA/EMA Analyzer:
+            - Moving averages, EMAs, SMAs, crossovers, "50/200 MA", "golden cross", etc.
+    
+            Portfolio:
+            - Here this means portfolio or holdings view.
+            - Examples: "show my portfolio", "view my holdings", "how is my 60/40 doing",
+              "performance of my positions together", "compare my positions as a portfolio".
+    
+            News & Sentiment:
+            - Wants headlines, news, or sentiment.
+            - Words like: news, headlines, articles, sentiment, "what are people saying about X".
+    
+            Sector Rotation Intelligence:
+            - Sectors or industries relative strength.
+            - Examples: "tech vs energy", "which sector is strongest", "rotate into defensives",
+              "which industry is leading or lagging".
+    
+            Output:
+            - Respond ONLY with one JSON array containing a single label.
+            - No explanations, no extra text.
         """).strip()),
         HumanMessage(content=f"Prompt: {prompt}")
     ]
