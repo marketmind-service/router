@@ -78,7 +78,8 @@ async def local_cli():
                 ========================================== RESULTS ==========================================
                 Prompt: {result.prompt}
                 Classification: {result.classification}
-                Ticker: {result.lookup_result.ticker}
+                Company: {result.lookup_result.company}
+                Ticker: {result.lookup_result.symbol}
                 Period: {result.lookup_result.period}
                 Interval: {result.lookup_result.interval}
                 ------------------------------------------------
