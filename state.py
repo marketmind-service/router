@@ -21,7 +21,6 @@ class LookupState(BaseModel):
 
     # META (exact keys from get_key_info)
     symbol: Optional[str] = None
-    shortName: Optional[str] = None
     currency: Optional[str] = None
     exchange: Optional[str] = None
     marketCap: Optional[int] = None
