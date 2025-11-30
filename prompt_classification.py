@@ -20,7 +20,7 @@ async def classify(prompt: str) -> List[str]:
             
             Rules:
             1. If it's about simulations or portfolio behavior → Portfolio Simulator
-            2. If it's about a specific stock or ticker → Stock Lookup
+            2. If it's about a specific stock or ticker (e.g., google) → Stock Lookup
             3. If it's about moving averages → SMA/EMA Analyzer
             4. If it's about headlines or sentiment → News & Sentiment
             5. If it's about sectors or industries → Sector Rotation Intelligence
