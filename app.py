@@ -84,6 +84,7 @@ async def local_cli():
                 Interval: {result.lookup_result.interval}
                 ------------------------------------------------
                 Search: {result.lookup_result}
+                News: {result.news_result}
                 =============================================================================================
             """).strip())
         except Exception as e:
