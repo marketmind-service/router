@@ -78,13 +78,13 @@ async def local_cli():
                 ========================================== RESULTS ==========================================
                 Prompt: {result.prompt}
                 Classification: {result.classification}
-                Company: {result.lookup_result.company}
-                Ticker: {result.lookup_result.symbol}
-                Period: {result.lookup_result.period}
-                Interval: {result.lookup_result.interval}
+                Company: {result.lookup_result.company or "None"}
+                Ticker: {result.lookup_result.symbol or "None"}
+                Period: {result.lookup_result.period or "None"}
+                Interval: {result.lookup_result.interval or "None"}
                 ------------------------------------------------
-                Search: {result.lookup_result}
-                News: {result.news_result}
+                Search: {result.lookup_result or "None"}
+                News: {result.news_result or "None"}
                 =============================================================================================
             """).strip())
         except Exception as e:
