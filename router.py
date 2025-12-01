@@ -14,7 +14,7 @@ async def router(state: AgentState) -> AgentState:
     elif head == "Portfolio":
         print("routing -> portfolio")
     elif head == "News & Sentiment":
-        print("routing -> news_sentiment")
+        route.append("news_sentiment")
     elif head == "Sector Rotation Intelligence":
         print("routing -> sector_rotation")
     else:
