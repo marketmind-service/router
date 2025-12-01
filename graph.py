@@ -23,7 +23,7 @@ def create_agent_graph():
         head = plan[0]
         if head == "stock_lookup":
             return "lookup_agent"
-        if head == "news_agent":
+        if head == "news_sentiment":
             return "news_agent"
         return "END"
 
