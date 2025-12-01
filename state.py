@@ -9,6 +9,7 @@ class AgentState(BaseModel):
     route_plan: List[str] = Field(default_factory=list)
     route_taken: List[str] = Field(default_factory=list)
     lookup_result: Optional[LookupState] = None
+    news_result: Optional[NewsState] = None
 
 
 class LookupState(BaseModel):
@@ -47,3 +48,11 @@ class LookupState(BaseModel):
 
     # OHLCV TAIL
     tail_ohlcv: Optional[dict] = None
+
+
+class NewsState(BaseModel):
+    prompt: Optional[str] = None
+    company: Optional[str] = None
+    items: Optional[int] = None
+    rows: Optional[List[Dict[str, Any]]] = None
+    error: Optional[str] = None
