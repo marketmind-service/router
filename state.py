@@ -10,17 +10,15 @@ class AgentState(BaseModel):
     route_taken: List[str] = Field(default_factory=list)
     lookup_result: Optional[LookupState] = None
     news_result: Optional[NewsState] = None
+    sector_result: Optional[SectorState] = None
 
 
 class LookupState(BaseModel):
-    # Original request data
     prompt: Optional[str] = None
     company: Optional[str] = None
     period: Optional[str] = None
     interval: Optional[str] = None
     error: Optional[str] = None
-
-    # META (exact keys from get_key_info)
     symbol: Optional[str] = None
     currency: Optional[str] = None
     exchange: Optional[str] = None
@@ -37,16 +35,12 @@ class LookupState(BaseModel):
     industry: Optional[str] = None
     website: Optional[str] = None
     lastPrice: Optional[float] = None
-
-    # QUICK STATS
     period_return_pct: Optional[float] = None
     ann_vol_pct: Optional[float] = None
     sma_20: Optional[float] = None
     sma_50: Optional[float] = None
     sma_200: Optional[float] = None
     atr_14: Optional[float] = None
-
-    # OHLCV TAIL
     tail_ohlcv: Optional[dict] = None
 
 
@@ -55,4 +49,8 @@ class NewsState(BaseModel):
     company: Optional[str] = None
     items: Optional[int] = None
     rows: Optional[List[Dict[str, Any]]] = None
+    error: Optional[str] = None
+
+class SectorState(BaseModel):
+    prompt: Optional[str] = None
     error: Optional[str] = None

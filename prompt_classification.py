@@ -15,7 +15,7 @@ async def classify(prompt: str) -> List[str]:
             ["SMA/EMA Analyzer"]
             ["Portfolio"]
             ["News & Sentiment"]
-            ["Sector Rotation Intelligence"]
+            ["Sector Analysis"]
             ["None of the above"]
     
             Global rule:
@@ -40,7 +40,7 @@ async def classify(prompt: str) -> List[str]:
             - Wants headlines, news, or sentiment.
             - Words like: news, headlines, articles, sentiment, "what are people saying about X".
     
-            Sector Rotation Intelligence:
+            Sector Analysis:
             - Sectors or industries relative strength.
             - Examples: "tech vs energy", "which sector is strongest", "rotate into defensives",
               "which industry is leading or lagging".
