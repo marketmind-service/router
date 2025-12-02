@@ -26,10 +26,13 @@ async def router(state: AgentState) -> AgentState:
     })
 
 
-LOOKUP_BASE_URL = os.environ.get("LOOKUP_BASE_URL")
+LOOKUP_BASE_URL = os.environ.get(
+    "LOOKUP_BASE_URL",
+    "https://lookup.wonderfulfield-2268942f.eastus2.azurecontainerapps.io"
+)
 
 
-async def lookup_agent(state: AgentState) -> AgentState:
+async def lookup_agent_remote(state: AgentState) -> AgentState:
     async with httpx.AsyncClient(timeout=15) as client:
         r = await client.post(
             f"{LOOKUP_BASE_URL}/api/lookup-agent",
@@ -38,13 +41,15 @@ async def lookup_agent(state: AgentState) -> AgentState:
         r.raise_for_status()
         data = r.json()
 
-    # build a new AgentState from the response
     new_state = AgentState(**data)
-    new_state.route_taken = (state.route_taken or []) + ["lookup_agent"]
+    new_state.route_taken = (state.route_taken or []) + ["lookup_agent_remote"]
     return new_state
 
 
-NEWS_BASE_URL = os.environ.get("NEWS_BASE_URL")
+NEWS_BASE_URL = os.environ.get(
+    "NEWS_BASE_URL",
+    "https://news-sentiment.wonderfulfield-2268942f.eastus2.azurecontainerapps.io"
+)
 
 
 async def news_agent(state: AgentState) -> AgentState:
@@ -65,7 +70,10 @@ async def news_agent(state: AgentState) -> AgentState:
     return new_state
 
 
-SECTOR_BASE_URL = os.environ.get("SECTOR_BASE_URL")
+SECTOR_BASE_URL = os.environ.get(
+    "SECTOR_BASE_URL",
+    "https://sector-analysis.wonderfulfield-2268942f.eastus2.azurecontainerapps.io"
+)
 
 
 async def sector_agent(state: AgentState) -> AgentState:
