@@ -87,9 +87,9 @@ async def local_cli():
                 News: {result.news_result or "None"}
                 ------------------------------------------------
                 SECTOR ANALYSIS
-                Rows: {result.sector_result.raw_rows}
-                Structured: {result.sector_result.structured_view}
-                Commentary: {result.sector_result.interpreted_results}
+                Rows: {result.sector_result.raw_rows or "None"}
+                Structured: {result.sector_result.structured_view or "None"}
+                Commentary: {result.sector_result.interpreted_results or "None"}
                 =============================================================================================
             """).strip())
         except Exception as e:
