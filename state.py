@@ -51,6 +51,11 @@ class NewsState(BaseModel):
     rows: Optional[List[Dict[str, Any]]] = None
     error: Optional[str] = None
 
+
 class SectorState(BaseModel):
     prompt: Optional[str] = None
+    sectors: Optional[List[str]] = None
+    raw_rows: Optional[List[Dict[str, Any]]] = None
+    structured_view: Optional[Dict[str, Any]] = None
+    interpreted_results: Optional[str] = None
     error: Optional[str] = None
