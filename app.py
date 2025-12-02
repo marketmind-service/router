@@ -64,6 +64,7 @@ async def ask(req: AskRequest):
 
     return {"result": str(result_state)}
 
+
 # === CLI MODE ===
 async def local_cli():
     print("MarketMind CLI (type 'exit' to quit)")
@@ -74,22 +75,35 @@ async def local_cli():
             break
         try:
             result = await start_agent(prompt)
+            lookup = result.lookup_result
+            news = result.news_result
+            sector = result.sector_result
+
+            company = lookup.company if lookup and lookup.company else "None"
+            symbol = lookup.symbol if lookup and lookup.symbol else "None"
+            period = lookup.period if lookup and lookup.period else "None"
+            interval = lookup.interval if lookup and lookup.interval else "None"
+
+            rows = sector.raw_rows if sector and sector.raw_rows else "None"
+            structured = sector.structured_view if sector and sector.structured_view else "None"
+            commentary = sector.interpreted_results if sector and sector.interpreted_results else "None"
+
             print(textwrap.dedent(f"""
                 ========================================== RESULTS ==========================================
                 Prompt: {result.prompt}
                 Classification: {result.classification}
-                Company: {result.lookup_result.company or "None"}
-                Ticker: {result.lookup_result.symbol or "None"}
-                Period: {result.lookup_result.period or "None"}
-                Interval: {result.lookup_result.interval or "None"}
+                Company: {company}
+                Ticker: {symbol}
+                Period: {period}
+                Interval: {interval}
                 ------------------------------------------------
-                Search: {result.lookup_result or "None"}
-                News: {result.news_result or "None"}
+                Search: {lookup or "None"}
+                News: {news or "None"}
                 ------------------------------------------------
                 SECTOR ANALYSIS
-                Rows: {result.sector_result.raw_rows or "None"}
-                Structured: {result.sector_result.structured_view or "None"}
-                Commentary: {result.sector_result.interpreted_results or "None"}
+                Rows: {rows}
+                Structured: {structured}
+                Commentary: {commentary}
                 =============================================================================================
             """).strip())
         except Exception as e:
@@ -101,11 +115,12 @@ if __name__ == "__main__":
     mode = "t"
     if mode == "s":
         import uvicorn
+
         uvicorn.run("app:app", host="127.0.0.1", port=8080, reload=True)
     else:
         import asyncio
-        asyncio.run(local_cli())
 
+        asyncio.run(local_cli())
 
 '''if __name__ == "__main__":
     import uvicorn

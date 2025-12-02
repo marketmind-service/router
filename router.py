@@ -65,7 +65,6 @@ async def news_agent(state: AgentState) -> AgentState:
 
     print("news_agent checkpoint 3")
     new_state = AgentState(**data)
-    print(new_state)
     new_state.route_taken = (state.route_taken or []) + ["news_agent"]
     return new_state
 
