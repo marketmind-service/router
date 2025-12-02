@@ -72,7 +72,7 @@ async def sector_agent(state: AgentState) -> AgentState:
     print("sector_agent checkpoint 1")
     async with httpx.AsyncClient(timeout=15) as client:
         r = await client.post(
-            f"{SECTOR_BASE_URL}/api/sector_agent",
+            f"{SECTOR_BASE_URL}/api/sector-agent",
             json=state.model_dump(),
         )
         print("sector_agent checkpoint 2")
