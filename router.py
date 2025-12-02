@@ -26,10 +26,13 @@ async def router(state: AgentState) -> AgentState:
     })
 
 
+LOOKUP_BASE_URL = os.environ.get("LOOKUP_BASE_URL")
+
+
 async def lookup_agent(state: AgentState) -> AgentState:
     async with httpx.AsyncClient(timeout=15) as client:
         r = await client.post(
-            f"{os.environ.get("LOOKUP_BASE_URL")}/api/lookup-agent",
+            f"{LOOKUP_BASE_URL}/api/lookup-agent",
             json=state.model_dump(),
         )
         r.raise_for_status()
@@ -41,11 +44,14 @@ async def lookup_agent(state: AgentState) -> AgentState:
     return new_state
 
 
+NEWS_BASE_URL = os.environ.get("NEWS_BASE_URL")
+
+
 async def news_agent(state: AgentState) -> AgentState:
     print("news_agent checkpoint 1")
     async with httpx.AsyncClient(timeout=15) as client:
         r = await client.post(
-            f"{os.environ.get("NEWS_BASE_URL")}/api/news-agent",
+            f"{NEWS_BASE_URL}/api/news-agent",
             json=state.model_dump(),
         )
         print("news_agent checkpoint 2")
@@ -59,11 +65,14 @@ async def news_agent(state: AgentState) -> AgentState:
     return new_state
 
 
+SECTOR_BASE_URL = os.environ.get("SECTOR_BASE_URL")
+
+
 async def sector_agent(state: AgentState) -> AgentState:
     print("sector_agent checkpoint 1")
     async with httpx.AsyncClient(timeout=15) as client:
         r = await client.post(
-            f"{os.environ.get("SECTOR_BASE_URL")}/api/sector_agent",
+            f"{SECTOR_BASE_URL}/api/sector_agent",
             json=state.model_dump(),
         )
         print("sector_agent checkpoint 2")
