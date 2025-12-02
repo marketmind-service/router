@@ -22,8 +22,10 @@ def create_agent_graph():
             return "END"
         head = plan[0]
         if head == "stock_lookup":
+            print("route_switch: stock_lookup")
             return "lookup_agent"
         if head == "news_sentiment":
+            print("route_switch: news_sentiment")
             return "news_agent"
         return "END"
 

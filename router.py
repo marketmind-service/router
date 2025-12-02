@@ -7,6 +7,8 @@ async def router(state: AgentState) -> AgentState:
     head = state.classification[0] if state.classification else None
     route = []
 
+    print(f"router1: {head}")
+
     if head == "Stock Lookup":
         route.append("stock_lookup")
     elif head == "SMA/EMA Analyzer":
@@ -14,6 +16,7 @@ async def router(state: AgentState) -> AgentState:
     elif head == "Portfolio":
         print("routing -> portfolio")
     elif head == "News & Sentiment":
+        print("router2: news_sentiment appended")
         route.append("news_sentiment")
     elif head == "Sector Rotation Intelligence":
         print("routing -> sector_rotation")
@@ -54,14 +57,18 @@ NEWS_BASE_URL = os.environ.get(
 
 
 async def news_agent(state: AgentState) -> AgentState:
+    print("news_agent checkpoint 1")
     async with httpx.AsyncClient(timeout=15) as client:
         r = await client.post(
             f"{NEWS_BASE_URL}/api/news-agent",
             json=state.model_dump(),
         )
+        print("news_agent checkpoint 2")
         r.raise_for_status()
         data = r.json()
 
+    print("news_agent checkpoint 3")
     new_state = AgentState(**data)
+    print(new_state)
     new_state.route_taken = (state.route_taken or []) + ["news_agent"]
     return new_state

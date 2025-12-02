@@ -61,6 +61,7 @@ async def classify(prompt: str) -> List[str]:
         except Exception:
             parsed = None
         if isinstance(parsed, list) and all(isinstance(x, str) for x in parsed):
+            print(f"classify_prompt parsed successfully: {parsed}")
             return parsed
         if attempt < 2:
             wait = 0.5 * (2 ** attempt)
