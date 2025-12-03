@@ -76,18 +76,23 @@ SECTOR_BASE_URL = os.environ.get(
 
 
 async def sector_agent(state: AgentState) -> AgentState:
-    print("sector_agent checkpoint 1")
-    async with httpx.AsyncClient(timeout=15) as client:
-        r = await client.post(
-            f"{SECTOR_BASE_URL}/api/sector-agent",
-            json=state.model_dump(),
-        )
-        print("sector_agent checkpoint 2")
-        r.raise_for_status()
-        data = r.json()
+    print("sector_agent checkpoint 1", "URL:", f"{SECTOR_BASE_URL}/api/sector-agent")
+    try:
+        async with httpx.AsyncClient(timeout=30) as client:
+            r = await client.post(
+                f"{SECTOR_BASE_URL}/api/sector-agent",
+                json=state.model_dump(),
+            )
+            print("sector_agent checkpoint 2", "status:", r.status_code)
+            r.raise_for_status()
+            data = r.json()
+    except Exception as e:
+        # VERY IMPORTANT: actually see what the hell is happening
+        print("sector_agent HTTP ERROR:", repr(e))
+        raise
 
     print("sector_agent checkpoint 3")
     new_state = AgentState(**data)
-    print(new_state)
+    print("sector_agent new_state:", new_state)
     new_state.route_taken = (state.route_taken or []) + ["sector_agent"]
     return new_state
