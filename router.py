@@ -78,7 +78,7 @@ SECTOR_BASE_URL = os.environ.get(
 async def sector_agent(state: AgentState) -> AgentState:
     print("sector_agent checkpoint 1", "URL:", f"{SECTOR_BASE_URL}/api/sector-agent")
     try:
-        async with httpx.AsyncClient(timeout=httpx.Timeout(connect=10, read=60)) as client:
+        async with httpx.AsyncClient(timeout=60.0) as client:
             r = await client.post(
                 f"{SECTOR_BASE_URL}/api/sector-agent",
                 json=state.model_dump(),
